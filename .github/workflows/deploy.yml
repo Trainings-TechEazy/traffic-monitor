@@ -40,4 +40,4 @@ jobs:
                   script: |
 
                       echo "Starting new app..."
-                      nohup java -jar ~/traffic/*.jar > ~/traffic/app.log 2>&1 &
+                      sudo nohup java -jar ~/traffic/*.jar > ~/traffic/app.log 2>&1 &
