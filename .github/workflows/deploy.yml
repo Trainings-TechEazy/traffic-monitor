@@ -1,46 +1,46 @@
 name: Deploy Traffic Monitor App to EC2
 
 on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+    push:
+        branches: [main]
+    workflow_dispatch:
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+    build-and-deploy:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
 
-      - name: Set up Java 17 for Build
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin' 
+            - name: Set up Java 17 for Build
+              uses: actions/setup-java@v3
+              with:
+                  java-version: "17"
+                  distribution: "temurin"
 
-      - name: Build Spring Boot App
-        run: ./mvnw clean package -DskipTests
+            - name: Build Spring Boot App
+              run: ./mvnw clean package -DskipTests
 
-      - name: Copy JAR to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "target/traffic-monitor*.jar"
-          target: "/home/ec2-user/traffic-monitor"
+            - name: Copy JAR to EC2
+              uses: appleboy/scp-action@master
+              with:
+                  host: ${{ secrets.EC2_HOST }}
+                  username: ec2-user
+                  key: ${{ secrets.EC2_SSH_KEY }}
+                  source: "target/traffic*.jar"
+                  target: "/home/ec2-user/traffic"
 
-      - name: Restart App on EC2 (Java already installed)
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            echo "Stopping old app if running..."
-            pkill -f 'traffic-monitor' || true
+            - name: Restart App on EC2 (Java already installed)
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.EC2_HOST }}
+                  username: ec2-user
+                  key: ${{ secrets.EC2_SSH_KEY }}
+                  script: |
+                      echo "Stopping old app if running..."
+                      pkill -f 'traffic' || true
 
-            echo "Starting new app..."
-            nohup java -jar ~/traffic-monitor/traffic-monitor*.jar > ~/traffic-monitor/app.log 2>&1 &
-            echo "✅ App restarted."
+                      echo "Starting new app..."
+                      nohup java -jar ~/traffic/traffic*.jar > ~/traffic/app.log 2>&1 &
+                      echo "## App restarted ##"
