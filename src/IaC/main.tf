@@ -31,7 +31,7 @@ resource "aws_security_group" "spring_sg" {
 resource "aws_instance" "spring_dev" {
   ami                         = "ami-0c02fb55956c7d316"  # Amazon Linux 2
   instance_type               = "t2.micro"
-  key_name                    = "/Users/chandan/projects/techeazy/TechEazyBootcamp.pem"  #Use existing AWS key pair name
+  key_name                    = "TechEazyBootcamp"  #Use existing AWS key pair name
   vpc_security_group_ids      = [aws_security_group.spring_sg.id]
 
   user_data = <<-EOF
