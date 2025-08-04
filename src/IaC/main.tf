@@ -38,8 +38,8 @@ resource "aws_instance" "spring_dev" {
               #!/bin/bash
               sudo yum update -y
               sudo yum install -y java-17-amazon-corretto
-              mkdir -p /home/ec2-user/traffic-monitor
-              chown ec2-user:ec2-user /home/ec2-user/traffic-monitor
+              mkdir -p /home/ec2-user/traffic
+              chown ec2-user:ec2-user /home/ec2-user/traffic
               EOF
 
   tags = {
