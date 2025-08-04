@@ -2,11 +2,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_key_pair" "deployer" {
-  key_name   = "spring-dev-key"
-  public_key = file("~/.ssh/id_rsa.pub")
-}
-
 resource "aws_security_group" "spring_sg" {
   name        = "spring-dev-sg"
   description = "Allow SSH and App Port"
@@ -34,9 +29,9 @@ resource "aws_security_group" "spring_sg" {
 }
 
 resource "aws_instance" "spring_dev" {
-  ami                         = "ami-0c02fb55956c7d316" # Amazon Linux 2
+  ami                         = "ami-0c02fb55956c7d316"  # Amazon Linux 2
   instance_type               = "t2.micro"
-  key_name                    = aws_key_pair.deployer.key_name
+  key_name                    = "/Users/chandan/projects/techeazy/TechEazyBootcamp.pem"  #Use existing AWS key pair name
   vpc_security_group_ids      = [aws_security_group.spring_sg.id]
 
   user_data = <<-EOF
