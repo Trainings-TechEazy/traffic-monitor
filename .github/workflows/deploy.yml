@@ -31,7 +31,7 @@ jobs:
                   source: "target/traffic*.jar"
                   target: "/home/ec2-user/traffic"
 
-            - name: Restart App on EC2 (Java already installed)
+            - name: Restart App on EC2
               uses: appleboy/ssh-action@master
               with:
                   host: ${{ secrets.EC2_HOST }}
@@ -39,8 +39,7 @@ jobs:
                   key: ${{ secrets.EC2_SSH_KEY }}
                   script: |
                       echo "Stopping old app if running..."
-                      pkill -f 'traffic' || true
+                      pkill -f 'traffic' || echo "No app to stop"
 
                       echo "Starting new app..."
-                      nohup java -jar ~/traffic/traffic*.jar > ~/traffic/app.log 2>&1 &
-                      echo "## App restarted ##"
+                      nohup java -jar ~/traffic/*.jar > ~/traffic/app.log 2>&1 &
