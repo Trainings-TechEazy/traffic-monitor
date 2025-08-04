@@ -38,8 +38,6 @@ jobs:
                   username: ec2-user
                   key: ${{ secrets.EC2_SSH_KEY }}
                   script: |
-                      echo "Stopping old app if running..."
-                      PID=$(pgrep -f 'traffic.*\.jar') && kill $PID || echo "No app to stop"
 
                       echo "Starting new app..."
                       nohup java -jar ~/traffic/*.jar > ~/traffic/app.log 2>&1 &
