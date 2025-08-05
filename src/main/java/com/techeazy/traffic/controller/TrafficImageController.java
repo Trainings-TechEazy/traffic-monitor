@@ -45,6 +45,6 @@ public class TrafficImageController {
         File[] files = folder.listFiles();
         int count = (files != null) ? files.length : 0;
 
-        return ResponseEntity.ok("Total uploaded images : " + count);
+        return ResponseEntity.ok("Total count of image images : " + count);
     }
 }
