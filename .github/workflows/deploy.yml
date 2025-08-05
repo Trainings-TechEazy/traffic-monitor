@@ -39,4 +39,4 @@ jobs:
                   key: ${{ secrets.EC2_SSH_KEY }}
                   script: |
                       echo "Starting new app..."
-                      sudo nohup java -jar /home/ec2-user/traffic/*.jar > /home/ec2-user/traffic/app.log 2>&1 &
+                      sudo nohup java -jar /home/ec2-user/traffic/target/*.jar > /home/ec2-user/traffic/target/app.log 2>&1 &
